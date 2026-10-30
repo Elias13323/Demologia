@@ -1,0 +1,114 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   LIBER DOMINIORUM — EDIÇÃO V · THE LIVING BOOK
+   Capa construída inteiramente com CSS e SVG, sem imagem bitmap.
+   Atmosfera: pergaminho ferido, ferro enegrecido, ouro corrupto, coração vivo.
+   ═══════════════════════════════════════════════════════════════════════ */
+:root { --carmine:#c73d4b;--arterial:#e66d5f;--deep-crimson:#671522;--vein:#3b0812;--antique-gold:#c2a078;--dark-gold:#78533c; }
+.threshold{background:radial-gradient(ellipse at 71% 49%,#4b101f 0%,#1d0b14 33%,#080608 74%)!important;isolation:isolate}
+.threshold::before{content:"";position:absolute;inset:-15%;pointer-events:none;background:repeating-conic-gradient(from 40deg at 70% 50%,rgba(187,35,54,.042) 0 3deg,transparent 3deg 19deg),radial-gradient(ellipse at 65% 55%,rgba(183,34,54,.12),transparent 55%);animation:profaneBreath 9s ease-in-out infinite alternate;transform-origin:70% 50%}
+.threshold::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(150deg,transparent 20%,#ba43520d 50%,transparent 80%);background-size:210% 210%;animation:ambientSweep 15s linear infinite}
+.threshold-inner{z-index:2;background:linear-gradient(100deg,#110a11d9,#0e070bb5),radial-gradient(circle at 73% 50%,#67203030,transparent 55%);box-shadow:0 20px 95px #000a,0 0 110px #9d20331a,inset 0 0 75px #1f080e80;border-color:#a269614d}
+.threshold-inner::before{border-color:#b2666440!important}
+.threshold .eyebrow,.threshold .chapter-ornament{color:#d3a47c}
+.threshold .threshold-copy{z-index:5}
+.threshold .threshold-copy h1{filter:drop-shadow(0 0 18px #ad2b3a2c)}
+.threshold .threshold-copy h1 em{color:#dba8a0}
+.threshold .button-gold{background:linear-gradient(120deg,#762731,#aa5242 52%,#4b1a25);border-color:#da8f80af;box-shadow:0 0 25px #b22c3735,inset 0 1px #f5c3ac40;position:relative;overflow:hidden}
+.threshold .button-gold::after{content:"";position:absolute;inset:0;transform:translateX(-140%) skewX(-28deg);width:38%;background:linear-gradient(90deg,transparent,#fff3d539,transparent);animation:buttonBleed 4.8s ease-in-out infinite}
+.threshold .button-gold:hover{background:linear-gradient(120deg,#9b303d,#bd6450 52%,#5c192d);box-shadow:0 0 38px #cf3c4c65}
+.profane-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+/* The old low-energy appearance is replaced with a cursed manuscript aesthetic. */
+.book-stage{box-shadow:0 25px 80px #000c,0 0 0 5px #180a12,0 0 0 7px #9e50474a,0 0 55px #931d2f22!important}
+.book-stage::before{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;border:1px solid #b1555166;box-shadow:inset 0 0 33px #a1253022,0 0 40px #8d202129}
+.book-stage::after{content:"";position:absolute;z-index:1;inset:-10px;pointer-events:none;background:radial-gradient(ellipse at 50% 60%,transparent 45%,#9f233418 80%,transparent);animation:profaneBreath 8s ease-in-out infinite}
+.folio-night{background:radial-gradient(ellipse at 40% 28%,#401b27,#1c0e18 52%,#10080f 100%)}
+.folio-night .folio-inner{background:radial-gradient(circle at 50% 61%,#b13a3f10,transparent 40%)}
+.folio-paper{background-image:radial-gradient(circle at 8% 9%,#fff5d64f,transparent 29%),radial-gradient(circle at 97% 79%,#784a3f68,transparent 45%),repeating-linear-gradient(172deg,transparent 0px 9px,#3512140b 10px 11px),linear-gradient(90deg,#b79a76,#ddc5a2 8%,#dcc4a2 84%,#a98766)!important}
+.folio-paper .folio-inner::before{content:"";position:absolute;pointer-events:none;inset:0;background:radial-gradient(ellipse at 1% 49%,#3d09131a,transparent 20%),radial-gradient(ellipse at 103% 32%,#46071318,transparent 20%);mix-blend-mode:multiply}
+.folio-paper .folio-head,.folio-paper .folio-foot{color:#5a3027}
+.folio-night h1,.folio-night h2,.special-left h2{filter:drop-shadow(0 0 10px #c03e4020)}
+.folio .folio-head::after{content:"◆";position:absolute;top:48px;left:50%;transform:translateX(-50%);color:currentColor;font-size:7px;opacity:.25}
+.folio-night .emblem-large{animation:emblemFlesh 3s ease-in-out infinite;filter:drop-shadow(0 0 25px #c7364566)}
+.section-overline.warning,.section-overline{letter-spacing:.25em}
+
+/* Fully animated inhabitants: seals, atmosphere, horizon, territorial light. */
+.entity-hero{isolation:isolate;box-shadow:inset 0 0 45px #0007,0 0 18px color-mix(in srgb,var(--entity-color),transparent 81%)}
+.entity-hero::after{content:"";position:absolute;inset:-10%;pointer-events:none;z-index:2;background:linear-gradient(108deg,transparent 18%,color-mix(in srgb,var(--entity-color),transparent 94%) 40%,transparent 58%);background-size:180% 100%;animation:ambientSweep 11s linear infinite}
+.entity-hero .scene-sun{animation:sceneMoon 5s ease-in-out infinite}
+.entity-hero .sigil-anchor{animation:sigilLevitation 5.7s ease-in-out infinite}
+.entity-hero .scene-svg{animation:sceneWander 18s ease-in-out infinite alternate}
+.entity-hero .sigil-glyph{animation:runeFlicker 7s ease-in-out infinite}
+.folio-night .division-symbol{filter:drop-shadow(0 0 26px #a6384c45);animation:emblemFlesh 5.5s ease-in-out infinite}
+.horse-crest-ring{filter:drop-shadow(0 0 7px var(--horse-color))}
+.horse-symbol{text-shadow:0 0 38px var(--horse-color),0 0 85px color-mix(in srgb,var(--horse-color),transparent 65%)}
+.heart-relic span,.torso-heart{filter:drop-shadow(0 0 18px #be3b4f)}
+.gate-red-seal{filter:drop-shadow(0 0 35px #a62a4030)}
+
+/* Page flip: face highlights and dynamic paper shadows. Keeps existing navigation and timing. */
+.turn-sheet{filter:drop-shadow(8px 1px 12px #12090abf);transition:transform 1010ms cubic-bezier(.22,.72,.18,1)!important}
+.turn-sheet::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:22;background:linear-gradient(90deg,#140c0b00 0%,#190b1233 40%,#f4e6c91f 60%,#0b060e6e 100%);opacity:0;transition:opacity .47s ease;backface-visibility:hidden}
+.turn-sheet.turning::after{opacity:1}
+.turn-face.front::after,.turn-face.back::after{content:"";position:absolute;pointer-events:none;inset:0;background:linear-gradient(90deg,#0005,transparent 27%,#fff1d711 72%,#0004);mix-blend-mode:multiply}
+.spread-root.ink-arriving .folio-inner{animation:folioInkAppear .62s cubic-bezier(.16,.75,.22,1) both}
+.spread-root.ink-arriving .folio-right .folio-inner{animation-delay:.07s}
+body.on-forbidden-folio .book-stage{box-shadow:0 20px 90px #000,0 0 0 5px #210910,0 0 0 7px #9738477a,0 0 60px #ac233f45!important}
+body.on-forbidden-folio .book-meta{color:#d18789}
+.topbar::before{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,#7e2538,#b88863,#7e2538,transparent);opacity:.75;animation:runeFlicker 8s ease-in-out infinite}
+.topbar .logo{animation:emblemFlesh 3.7s ease-in-out infinite}
+.topbar .logo:hover{filter:drop-shadow(0 0 17px #e24d56)}
+.toast{border-color:#b55c6177!important;box-shadow:0 15px 45px #000a,0 0 25px #a1243228}
+
+@keyframes livingFloat{0%,100%{transform:perspective(1300px) rotateZ(-6deg) rotateY(-13deg) translateY(0)}50%{transform:perspective(1300px) rotateZ(-4.3deg) rotateY(-16deg) translateY(-14px)}}
+@keyframes innerBookFloat{0%,100%{transform:perspective(1000px) rotateZ(-3deg) rotateY(-6deg) translateY(0)}50%{transform:perspective(1000px) rotateZ(-2deg) rotateY(-8deg) translateY(-7px)}}
+@keyframes coverUnseal{0%{filter:drop-shadow(28px 37px 30px #000c)}60%{transform:perspective(1200px) rotateY(-47deg) translateZ(30px) scale(1.1);filter:drop-shadow(0 0 70px #d74b5f99)}100%{transform:perspective(1200px) rotateY(-80deg) translateZ(65px) scale(1.2);opacity:0}}
+@keyframes slowHex{to{transform:rotate(360deg)}}
+@keyframes reverseHex{to{transform:rotate(-360deg)}}
+@keyframes heartChamberBeat{0%,100%{transform:scale(1)}12%{transform:scale(1.075)}20%{transform:scale(.97)}33%{transform:scale(1.105)}42%{transform:scale(1)}60%{transform:scale(1)}75%{transform:scale(1.025)}}
+@keyframes heartHalo{0%{transform:scale(.65);opacity:.75}100%{transform:scale(1.55);opacity:0}}
+@keyframes profaneBreath{0%,100%{transform:scale(.95);opacity:.7}50%{transform:scale(1.075);opacity:1}}
+@keyframes emblemFlesh{0%,100%{filter:drop-shadow(0 0 12px #8d193626)}50%{filter:drop-shadow(0 0 32px #c0344677)}}
+@keyframes runeFlicker{0%,100%{opacity:.83}8%{opacity:.45}10%{opacity:1}48%{opacity:1}51%{opacity:.56}53%{opacity:1}85%{opacity:.9}}
+@keyframes ambientSweep{0%{background-position:180% 0}100%{background-position:-180% 0}}
+@keyframes sceneMoon{0%,100%{opacity:.65;filter:blur(1px)}50%{opacity:1;filter:blur(5px)}}
+@keyframes sigilLevitation{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes sceneWander{0%{transform:translateX(-6px) scale(1.03)}100%{transform:translateX(6px) scale(1.08)}}
+@keyframes buttonBleed{0%,25%{transform:translateX(-180%) skewX(-28deg)}50%,100%{transform:translateX(420%) skewX(-28deg)}}
+@keyframes folioInkAppear{0%{opacity:.7;transform:translateY(7px);filter:blur(1.5px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+
+@media(max-width:1060px){.outer-book{width:min(325px,81%);height:min(495px,82%)}}
+@media(max-width:790px){
+  .threshold-inner{gap:6px}
+  .threshold-art{height:300px;min-height:300px;flex-shrink:0}
+  .living-book.outer-book{width:185px;height:275px;max-width:none}
+  .living-book.inside-book{width:235px;height:350px;max-width:85%}
+  .living-cover{border-radius:6px}
+  .cover-inscription{top:10%;gap:5px}
+  .cover-inscription strong{font-size:6px;letter-spacing:.15em}
+  .cover-inscription small{font-size:5px;letter-spacing:.11em}
+  .cover-inscription .forgotten-runes{font-size:9px}
+  .cover-colophon{bottom:8%;gap:5px}
+  .cover-colophon strong{font-size:7px;letter-spacing:.12em}
+  .cover-colophon span,.cover-colophon small{font-size:5px}
+  .living-corner{font-size:9px}.living-corner.tl{top:21px;left:22px}.living-corner.tr{top:21px;right:22px}.living-corner.bl{bottom:21px;left:22px}.living-corner.br{bottom:21px;right:22px}
+  .mandala-mark{font-size:9px}
+  .mandala-cardinal{font-size:10px}
+  .threshold-art-label{display:none}
+  .inner-cover-art.living-interior{height:380px!important;width:min(300px,85%)!important}
+  .book-stage::after{display:none}
+  .spread-root.ink-arriving .folio-inner{animation-duration:.42s}
+}
+@media(max-width:500px){
+  .threshold-art{height:232px;min-height:232px}
+  .living-book.outer-book{width:148px;height:220px}
+  .threshold h1{font-size:clamp(46px,11vw,55px)}
+  .inner-cover-art.living-interior{height:330px!important}
+  .inside-book .cover-colophon strong{font-size:7px}
+  .inside-book .cover-inscription strong{font-size:7px}
+  .threshold-inner{padding:20px 16px}
+  .threshold-lead{font-size:20px}
+  .threshold .chapter-ornament{margin:5px}
+}
+@media(prefers-reduced-motion:reduce){
+  .living-book,.living-heart-wrap,.mandala-ring,.heart-echo,.living-cover:after,.threshold::before,.threshold::after,.threshold-art::before,.threshold-art .orbital,.book-stage::after,.turn-sheet::after,.entity-hero::after,.scene-svg,.scene-sun,.sigil-anchor,.folio .folio-inner,.topbar .logo,.folio-night .emblem-large{animation:none!important;transition:none!important}
+  .turn-sheet{transition:none!important}
+}

@@ -1,0 +1,33 @@
+/* EDIÇÃO VI: somente tipografia e ambiente, nenhuma ilustração de capa. */
+.threshold-inner{
+  grid-template-columns:minmax(0,1fr)!important;
+  max-width:860px!important;
+  width:min(860px,100%)!important;
+  min-height:0!important;
+  padding:clamp(34px,6vw,85px)!important;
+  text-align:center;
+  justify-content:center;
+  background:radial-gradient(ellipse at 50% 90%,#43152150,transparent 62%),linear-gradient(140deg,#170b11e9,#0c080ce9)!important;
+}
+.threshold-copy{max-width:660px;margin:0 auto;width:100%}
+.threshold-copy h1{font-size:clamp(48px,6.5vw,78px);line-height:1.08;letter-spacing:-.02em}
+.threshold-copy .chapter-ornament{margin:24px auto}
+.threshold .microcopy{max-width:580px;margin-left:auto;margin-right:auto}
+.threshold .button-gold{margin:16px auto}
+.threshold::before{background:radial-gradient(circle at 50% 50%,#93283b19,transparent 65%),repeating-conic-gradient(from 40deg at 50% 50%,rgba(187,35,54,.028) 0 2deg,transparent 2deg 27deg)!important;transform-origin:center!important}
+.threshold .eyebrow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.colophon-profanum{display:flex;flex-direction:column;justify-content:center;align-items:center;flex:1;min-height:0;text-align:center;padding:clamp(12px,2vw,28px) 12px}
+.colophon-brow{font:500 10px/1.8 var(--display)!important;letter-spacing:.26em!important;color:#c79c7a;max-width:420px}
+.colophon-verse{display:flex;align-items:center;flex-direction:column;gap:2px;margin:clamp(20px,3.5vh,45px) auto;color:#f1e0cb;font-family:var(--literary);font-size:clamp(30px,3.5vw,53px);line-height:.98;letter-spacing:-.025em}
+.colophon-verse em{font-size:1.28em;color:#d68f92;font-weight:600;line-height:1.02;animation:colophonInk 7s ease-in-out infinite alternate}
+.colophon-verse strong{font-size:1.16em;font-weight:500;color:#edc8a4;letter-spacing:.055em}
+.colophon-text{max-width:410px;font:23px/1.25 var(--literary)!important;color:#cfb9a7;margin:14px 0 20px!important}
+.colophon-rule{color:#a5675d;font-size:13px;letter-spacing:.16em;margin-bottom:20px;animation:colophonFlicker 9s linear infinite}
+.colophon-archivum{font:10px/2.2 var(--display)!important;letter-spacing:.1em;color:#c5a182}
+.colophon-archivum b{font-weight:500;letter-spacing:.08em;color:#e2c3a3}
+.colophon-ending{font:italic 23px/1.3 var(--literary)!important;color:#bca18f;max-width:360px;margin-top:14px!important}
+@keyframes colophonInk{0%,100%{opacity:.75;text-shadow:0 0 0 transparent}55%{opacity:1;text-shadow:0 0 18px #a82d4f3a}}
+@keyframes colophonFlicker{0%,92%,100%{opacity:.8}93%,96%{opacity:.35}97%{opacity:1}}
+@media(max-width:790px){.threshold-inner{padding:clamp(30px,7vw,60px)!important}.threshold-copy h1{font-size:clamp(42px,9.5vw,70px)}.colophon-profanum{padding:22px 10px}.colophon-text{font-size:22px!important}}
+@media(max-width:500px){.threshold-inner{padding:32px 18px!important}.threshold-copy h1{font-size:clamp(38px,10vw,55px)}.colophon-verse{font-size:37px}.colophon-ending{font-size:20px!important}}
+@media(prefers-reduced-motion:reduce){.colophon-verse em,.colophon-rule{animation:none!important}}

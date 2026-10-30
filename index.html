@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09070b">
+  <meta name="description" content="Liber Dominiorum: um grimório ficcional interativo com 64 entidades, um livro que vira páginas e os cinco lacres de Annihilator.">
+  <title>LIBER DOMINIORUM — O Grimório Proibido</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="profane.css">
+  <link rel="stylesheet" href="no-covers.css">
+  <script src="catalog.js" defer></script>
+  <script src="profane.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <canvas id="dustCanvas" class="dust-canvas" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div id="threshold" class="threshold" role="dialog" aria-modal="true" aria-label="Entrada do grimório">
+    <canvas class="profane-canvas" id="profaneCanvas" aria-hidden="true"></canvas>
+    <div class="threshold-inner">
+      <div class="threshold-copy">
+        <p class="eyebrow"><span class="dot"></span> CUSTODIA ARCANA · ACERVO RESTRITO · MMXXVI</p>
+        <div class="chapter-ornament">✧ &nbsp; ─── ✣ ─── &nbsp; ✧</div>
+        <h1>Há coisas que<br>não querem ser<br><em>compreendidas.</em></h1>
+        <p class="threshold-lead">O livro contém sessenta e quatro presenças, dezenas de territórios e um nome arrancado do índice comum. Algumas páginas pedem uma pergunta. Outras, um juramento.</p>
+        <button id="enterButton" class="button-gold" type="button">ROMPER O PRIMEIRO SELO <span>✦</span></button>
+        <p class="microcopy">Uma obra de ficção sombria e fantasia. Os ritos pertencem ao universo do grimório.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="app" class="app" inert>
+    <header class="topbar">
+      <div class="topbar-left">
+        <button id="menuButton" class="icon-button mobile-menu" type="button" aria-label="Abrir acervo" aria-expanded="false">☷</button>
+        <span class="logo">✣</span>
+        <span class="topbar-brand"><strong>LIBER DOMINIORUM</strong><small>GRIMÓRIO DAS EXISTÊNCIAS</small></span>
+      </div>
+      <span class="topbar-middle">ARCHIVUM OBSCURUM <span>✧</span> TOMO I — AS FACES DO VÉU</span>
+      <div class="topbar-right">
+        <button id="soundButton" type="button" class="top-action" title="Ativar/desativar atmosfera sonora" aria-pressed="false">♫ <span>SOM OFF</span></button>
+        <button id="resetButton" type="button" class="top-action subtle" title="Reiniciar apenas a progressão secreta">↺ <span>REINICIAR RITO</span></button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+      <aside id="sidebar" class="sidebar" aria-label="Índice do grimório">
+        <div class="sidebar-top">
+          <p class="sidebar-overline">REGISTROS CATALOGADOS</p>
+          <h2>Índice das<br><i>existências</i></h2>
+          <div class="record-total"><span id="recordCount">64</span><small>ENTIDADES DOCUMENTADAS</small></div>
+          <label class="search-wrap"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Pesquisar entidade, domínio..." autocomplete="off" aria-label="Pesquisar no grimório"></label>
+          <div class="filter-chips" id="filterChips">
+            <button class="chip active" type="button" data-filter="all">TODOS</button>
+            <button class="chip" type="button" data-filter="demonios">DEMÔNIOS</button>
+            <button class="chip" type="button" data-filter="anjos">ANJOS</button>
+            <button class="chip" type="button" data-filter="criaturas">CRIATURAS</button>
+            <button class="chip" type="button" data-filter="favorite">✦ SALVOS</button>
+          </div>
+        </div>
+        <div class="sidebar-list" id="sidebarList" aria-label="Entradas do índice"></div>
+        <div class="sidebar-end">
+          <button id="archiveShortcut" type="button" class="secret-shortcut"><span>⛧</span><span>CÂMARA INTERDITA<small id="chamberState">05 LACRES OCULTOS</small></span><span>›</span></button>
+          <p class="seal-readout">MARCAS ENCONTRADAS <strong id="sealCount">0 / 5</strong></p>
+        </div>
+      </aside>
+
+      <main class="reader-shell" id="readerShell">
+        <div class="book-meta">
+          <span class="meta-corner"><i></i> LIVRO EM CONSULTA</span>
+          <span id="sectionMeta">FÓLIO 000 · O LIMIAR</span>
+          <span class="meta-end" id="realmMeta">O VÉU AINDA RESPIRA</span>
+        </div>
+        <div class="book-stage" id="bookStage">
+          <div class="book-edge" aria-hidden="true"></div>
+          <div id="spreadRoot" class="spread-root" aria-live="off"></div>
+          <div class="turn-sheet" id="turnSheet" aria-hidden="true">
+            <div id="turnFront" class="turn-face front"></div>
+            <div id="turnBack" class="turn-face back"></div>
+          </div>
+          <div class="book-spine-shadow" aria-hidden="true"></div>
+          <div class="page-corner page-corner-left" aria-hidden="true"></div>
+          <div class="page-corner page-corner-right" aria-hidden="true"></div>
+        </div>
+        <div class="reading-controls">
+          <button id="prevPage" type="button" class="page-nav"><span class="arrow">←</span><span>FOLHA ANTERIOR</span></button>
+          <div class="pagination"><div class="pagination-rule"></div><div class="pagination-center"><strong id="currentNumber">000</strong><span> / </span><span id="maxNumber">000</span></div><div class="pagination-rule"></div></div>
+          <button id="nextPage" type="button" class="page-nav"><span>PRÓXIMA FOLHA</span><span class="arrow">→</span></button>
+        </div>
+        <p class="controls-hint">Arraste pelo índice ou navegue com as setas do teclado · Toque em uma entidade para visitar seu domínio.</p>
+      </main>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="inkFlash" class="ink-flash" aria-hidden="true"></div>
+</body>
+</html>
