@@ -1,12 +1,20 @@
-LIBER DOMINIORUM — VERSÃO VI ORIGINAL
+LIBER DOMINIORUM — EDIÇÃO VI · SEM CAPAS ILUSTRADAS
 
-Design, ordem dos 68 registros, abas, navegação, animações e rito de Annihilator idênticos à versão 6.
-Somente textos explicativos das entidades e duas frases de explicação receberam revisão histórica.
-Os nomes e as ambientações artísticas foram preservados. Nos cinco nomes ficcionais, as fichas explicitam a ausência de tradição identificada.
-As capas ilustradas continuam ausentes, conforme a versão 6.
+ALTERAÇÃO SOLICITADA
+• Removidas as duas capas visuais: a ilustração da entrada e a capa duplicada do primeiro fólio.
+• A entrada agora é inteiramente textual, com névoa/brasas e luz animada.
+• O primeiro fólio apresenta uma epígrafe literária, sem desenho de capa.
+• Sem imagens de capas novas.
 
-ABRIR: index.html no navegador, com os arquivos na mesma pasta.
+COMO ABRIR
+1. Extraia o arquivo ZIP.
+2. Abra index.html no Chrome, Edge ou Firefox.
+3. Se preferir, abra o arquivo grimorio-dos-dominios-v6.html diretamente.
 
-ADICIONADOS NESTA ATUALIZAÇÃO:
-Pruflas e Belzebu (Demônios) / Fanuel e Barachiel (Anjos). Nenhum outro registro foi alterado.
-Para atualizar o GitHub com arquivos separados, substitua index.html, catalog.js e script.js. Os arquivos CSS e demais componentes não foram modificados.
+PRESERVADO
+• Mais de 70 fólios, 64 entidades e páginas dos Cavaleiros.
+• Virada de página 3D, pesquisa, filtros, favoritos e relicários interativos.
+• A câmara proibida, os cinco selos e o ritual fictício de Annihilator.
+• Efeitos ambientes e som opcional.
+
+Os ritos são elementos ficcionais da lore.

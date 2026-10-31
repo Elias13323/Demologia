@@ -18,7 +18,7 @@
 .threshold .button-gold:hover{background:linear-gradient(120deg,#9b303d,#bd6450 52%,#5c192d);box-shadow:0 0 38px #cf3c4c65}
 .profane-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
 /* The old low-energy appearance is replaced with a cursed manuscript aesthetic. */
-.book-stage{box-shadow:0 25px 80px #000c,0 0 0 5px #180a12,0 0 0 7px #9e50474a,0 0 55px #931d2f22!important}
+.book-stage{box-shadow:0 25px 80px #000b, 0 0 48px 12px #931d2f1b!important}
 .book-stage::before{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;border:1px solid #b1555166;box-shadow:inset 0 0 33px #a1253022,0 0 40px #8d202129}
 .book-stage::after{content:"";position:absolute;z-index:1;inset:-10px;pointer-events:none;background:radial-gradient(ellipse at 50% 60%,transparent 45%,#9f233418 80%,transparent);animation:profaneBreath 8s ease-in-out infinite}
 .folio-night{background:radial-gradient(ellipse at 40% 28%,#401b27,#1c0e18 52%,#10080f 100%)}
@@ -45,13 +45,16 @@
 .gate-red-seal{filter:drop-shadow(0 0 35px #a62a4030)}
 
 /* Page flip: face highlights and dynamic paper shadows. Keeps existing navigation and timing. */
-.turn-sheet{filter:drop-shadow(8px 1px 12px #12090abf);transition:transform 1010ms cubic-bezier(.22,.72,.18,1)!important}
+.turn-sheet{filter:none!important;transition:transform 1010ms cubic-bezier(.22,.72,.18,1)!important;transform-style:preserve-3d!important}
+.turn-sheet .turn-face{backface-visibility:hidden!important;-webkit-backface-visibility:hidden!important;transform-style:flat!important;box-shadow:0 2px 11px #12090a50}
+.turn-sheet .turn-face.front{transform:translateZ(0.5px)}
+.turn-sheet .turn-face.back{transform:rotateY(180deg) translateZ(0.5px)}
 .turn-sheet::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:22;background:linear-gradient(90deg,#140c0b00 0%,#190b1233 40%,#f4e6c91f 60%,#0b060e6e 100%);opacity:0;transition:opacity .47s ease;backface-visibility:hidden}
 .turn-sheet.turning::after{opacity:1}
 .turn-face.front::after,.turn-face.back::after{content:"";position:absolute;pointer-events:none;inset:0;background:linear-gradient(90deg,#0005,transparent 27%,#fff1d711 72%,#0004);mix-blend-mode:multiply}
 .spread-root.ink-arriving .folio-inner{animation:folioInkAppear .62s cubic-bezier(.16,.75,.22,1) both}
 .spread-root.ink-arriving .folio-right .folio-inner{animation-delay:.07s}
-body.on-forbidden-folio .book-stage{box-shadow:0 20px 90px #000,0 0 0 5px #210910,0 0 0 7px #9738477a,0 0 60px #ac233f45!important}
+body.on-forbidden-folio .book-stage{box-shadow:0 20px 90px #000b,0 0 66px 14px #ac233f36!important}
 body.on-forbidden-folio .book-meta{color:#d18789}
 .topbar::before{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,#7e2538,#b88863,#7e2538,transparent);opacity:.75;animation:runeFlicker 8s ease-in-out infinite}
 .topbar .logo{animation:emblemFlesh 3.7s ease-in-out infinite}
@@ -112,3 +115,13 @@ body.on-forbidden-folio .book-meta{color:#d18789}
   .living-book,.living-heart-wrap,.mandala-ring,.heart-echo,.living-cover:after,.threshold::before,.threshold::after,.threshold-art::before,.threshold-art .orbital,.book-stage::after,.turn-sheet::after,.entity-hero::after,.scene-svg,.scene-sun,.sigil-anchor,.folio .folio-inner,.topbar .logo,.folio-night .emblem-large{animation:none!important;transition:none!important}
   .turn-sheet{transition:none!important}
 }
+
+/* Ajuste: a moldura não deve invadir o índice nem recortar a animação.
+   O desfoque aparece somente como sombra suave ao redor do livro. */
+@media (min-width:791px) {
+  .workspace { isolation: isolate; }
+  .reader-shell { position: relative; z-index: 1; overflow: visible; }
+  .sidebar { position: relative; z-index: 3; }
+}
+/* A lombada permanece discreta, sem criar uma tarja escura nas páginas. */
+.book-spine-shadow { width: 9px; opacity: .72; }

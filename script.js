@@ -208,7 +208,7 @@
     return folioFrame(panelLeft(a,'folio-night'),panelRight(b,'folio-night'));
   }
   function renderAtlas(n){
-    const a=`${ornaments('I / CLASSIFICAÇÃO')}<p class="section-overline">REGISTRO DE ABERTURA</p><h2 class="big-serif">A Anatomia<br><em>do Invisível</em></h2><p class="dropcap">Este livro reúne sessenta e oito registros individuais de demônios, anjos e criaturas, cada qual guardando o domínio que o moldou, o território em que se manifesta, seus sinais e as formas de contato descritas nas tradições ficcionais do culto.</p><p>Ao virar as folhas, cada nome abre um lugar próprio. Observe as insígnias, explore os aposentos e realize os gestos simbólicos que despertam as respostas ocultas de cada registro.</p><div class="atlas-stats"><div><b>21</b><span>INFERNAIS</span></div><div><b>21</b><span>CELESTES</span></div><div><b>26</b><span>CRIATURAS</span></div></div>${foot(n)}`;
+    const a=`${ornaments('I / CLASSIFICAÇÃO')}<p class="section-overline">REGISTRO DE ABERTURA</p><h2 class="big-serif">A Anatomia<br><em>do Invisível</em></h2><p class="dropcap">Este livro reúne sessenta e quatro registros individuais de demônios, anjos e criaturas, cada qual guardando o domínio que o moldou, o território em que se manifesta, seus sinais e as formas de contato descritas nas tradições ficcionais do culto.</p><p>Ao virar as folhas, cada nome abre um lugar próprio. Observe as insígnias, explore os aposentos e realize os gestos simbólicos que despertam as respostas ocultas de cada registro.</p><div class="atlas-stats"><div><b>19</b><span>INFERNAIS</span></div><div><b>19</b><span>CELESTES</span></div><div><b>26</b><span>CRIATURAS</span></div></div>${foot(n)}`;
     const b=`${ornaments('II / AS DIVISÕES')}<h3 class="minor-title">Escolha uma estante</h3><div class="atlas-categories"><button class="atlas-category infernal" data-jump="${perGroup.demonios}" type="button"><span>✥</span><div><strong>DEMÔNIOS</strong><small>Desejo, contrato, ruína e soberania</small></div><i>→</i></button><button class="atlas-category celestial" data-jump="${perGroup.anjos}" type="button"><span>✧</span><div><strong>ANJOS</strong><small>Vigília, mensagem, ordem e revelação</small></div><i>→</i></button><button class="atlas-category bestial" data-jump="${perGroup.criaturas}" type="button"><span>☾</span><div><strong>CRIATURAS</strong><small>Fronteiras, metamorfoses e mistérios</small></div><i>→</i></button></div><div class="archival-note"><b>NOTA À MARGEM</b><p>Uma quarta seção foi removida do índice público. Seus fragmentos encontram-se espalhados por cinco nomes. Encontre os símbolos e leve-os à Câmara Interdita.</p><button class="text-link" data-jump="${gateIndex}" type="button">VER O LACRE <span>↗</span></button></div>${foot(n,'MAPA DO ACERVO')}`;
     return folioFrame(panelLeft(a,'folio-paper'),panelRight(b,'folio-paper'));
   }
@@ -232,8 +232,8 @@
   function encounterPane(e){
     const active=tabState.get(e.id)||'cronica';
     if(active==='cronica')return `<div class="tab-story"><p class="tab-overline">I · A HISTÓRIA POR TRÁS DO NOME</p><h3>Crônica da Existência</h3><p class="dropcap">${esc(e.origin)}</p><p>${esc(e.nature)}</p><div class="small-inscription">O LIVRO ADVERTE · NENHUMA ENTIDADE SE REDUZ A UM TÍTULO</div></div>`;
-    if(active==='aparicao')return `<div class="tab-story"><p class="tab-overline">II · O TERRITÓRIO E A CARNE</p><h3>Manifestações</h3><div class="detail-kicker">DESCRIÇÃO VISUAL</div><p>${esc(e.looks)}</p><div class="detail-kicker">SINAIS DA PROXIMIDADE</div><p>${esc(e.signs)}</p><div class="detail-kicker">AMBIENTE VINCULADO</div><p>O território artístico desta página recebe o nome de <strong>${esc(e.realm)}</strong> e simboliza os temas associados a ${esc(e.name)}: ${esc(e.domain)}. Esse cenário é uma ambientação do grimório, não um local histórico comprovado.</p></div>`;
-    if(active==='contato')return `<div class="tab-story"><p class="tab-overline">III · AUDIÊNCIA E CHAMADO</p><h3>Como Estabelecer Contato</h3><div class="ritual-mini"><div class="ritual-marker">01</div><div><b>COMUNICAÇÃO</b><p>${esc(e.contact)}</p></div></div><div class="ritual-mini"><div class="ritual-marker">02</div><div><b>INVOCAÇÃO SIMBÓLICA</b><p>${esc(e.rite)}</p></div></div><p class="fine-print">Os textos religiosos e folclóricos registram crenças e práticas de suas épocas; não há comprovação de comunicação ou invocação sobrenatural.</p></div>`;
+    if(active==='aparicao')return `<div class="tab-story"><p class="tab-overline">II · O TERRITÓRIO E A CARNE</p><h3>Manifestações</h3><div class="detail-kicker">DESCRIÇÃO VISUAL</div><p>${esc(e.looks)}</p><div class="detail-kicker">SINAIS DA PROXIMIDADE</div><p>${esc(e.signs)}</p><div class="detail-kicker">AMBIENTE VINCULADO</div><p>A presença de ${esc(e.name)} é registrada em <strong>${esc(e.realm)}</strong>. O próprio cenário manifesta a força de seu domínio: ${esc(e.domain)}.</p></div>`;
+    if(active==='contato')return `<div class="tab-story"><p class="tab-overline">III · AUDIÊNCIA E CHAMADO</p><h3>Como Estabelecer Contato</h3><div class="ritual-mini"><div class="ritual-marker">01</div><div><b>COMUNICAÇÃO</b><p>${esc(e.contact)}</p></div></div><div class="ritual-mini"><div class="ritual-marker">02</div><div><b>INVOCAÇÃO SIMBÓLICA</b><p>${esc(e.rite)}</p></div></div><p class="fine-print">Os ritos descritos integram o universo narrativo do grimório. Não representam instruções ou resultados sobrenaturais reais.</p></div>`;
     if(active==='segredos')return `<div class="tab-story"><p class="tab-overline">IV · O PREÇO DE SER OUVIDO</p><h3>Advertências e Segredos</h3><div class="secret-panel"><span>⛧</span><p>${esc(e.cost)}</p></div><div class="detail-kicker">ANOTAÇÃO RASURADA</div><p>${esc(e.secret)}</p><div class="secret-seal">NÃO É PERMISSÃO PARA OBEDECER · É APENAS UM REGISTRO</div></div>`;
     return renderRelic(e);
   }
@@ -261,7 +261,7 @@
   function renderEntity(e,n){
     const fav=savedFavorites.has(e.id),cls=e.category;
     const a=`${ornaments('FÓLIO '+String(n).padStart(3,'0'))}<div class="entity-hero ${esc(e.scene)}" style="--entity-color:${esc(e.color)}"><div class="scene-visual">${scenery(e)}<div class="scene-sun"></div></div><div class="scene-caption">${small(sceneName[e.scene]||'TERRITÓRIO ANTIGO')}</div><div class="sigil-anchor">${sigilSvg(e)}</div><div class="entity-hero-content"><span class="entity-group">${esc(glyphCat[cls])} &nbsp; ${prettyCat[cls]} · REGISTRO ${String(idFor(e)+1).padStart(2,'0')}</span><h2>${esc(e.name)}</h2><p class="entity-epithet">${esc(e.title)}</p><div class="domain-rule"></div><span class="realm-label">DOMÍNIO</span><p class="domain-text">${esc(e.domain)}</p><span class="realm-label">TERRITÓRIO</span><p class="realm-text">${esc(e.realm)}</p></div></div>${foot(n,'INSÍGNIA INDIVIDUAL')}`;
-    const b=`${ornaments('DOSSIÊ / '+prettyCat[cls])}<div class="right-entity-heading"><div><p class="tab-overline">ENTIDADE CATALOGADA · ${String(idFor(e)+1).padStart(2,'0')} / ${DATA.length}</p><h3>${esc(e.title)}</h3></div><button class="favorite ${fav?'on':''}" data-action="favorite" data-id="${esc(e.id)}" aria-label="${fav?'Remover dos salvos':'Salvar entidade'}" title="${fav?'Remover dos favoritos':'Salvar no relicário'}" type="button">${fav?'✦':'☆'}</button></div>${tabs(e)}<div class="entity-tab-content">${encounterPane(e)}</div><div class="entity-bottom-note"><span>✥ CLASSIS · ${prettyCat[cls]}</span><span>O LIVRO RECORDA</span></div>${foot(n,'CUSTODIA ARCANA')}`;
+    const b=`${ornaments('DOSSIÊ / '+prettyCat[cls])}<div class="right-entity-heading"><div><p class="tab-overline">ENTIDADE CATALOGADA · ${String(idFor(e)+1).padStart(2,'0')} / 64</p><h3>${esc(e.title)}</h3></div><button class="favorite ${fav?'on':''}" data-action="favorite" data-id="${esc(e.id)}" aria-label="${fav?'Remover dos salvos':'Salvar entidade'}" title="${fav?'Remover dos favoritos':'Salvar no relicário'}" type="button">${fav?'✦':'☆'}</button></div>${tabs(e)}<div class="entity-tab-content">${encounterPane(e)}</div><div class="entity-bottom-note"><span>✥ CLASSIS · ${prettyCat[cls]}</span><span>O LIVRO RECORDA</span></div>${foot(n,'CUSTODIA ARCANA')}`;
     return folioFrame(panelLeft(a,`folio-night themed ${cls}`),panelRight(b,`folio-paper entity-reading ${cls}`));
   }
 
@@ -496,16 +496,38 @@
   stage.addEventListener('touchstart',ev=>{if(ev.touches.length===1)touchStart={x:ev.touches[0].clientX,y:ev.touches[0].clientY};},{passive:true});
   stage.addEventListener('touchend',ev=>{if(!touchStart||ev.changedTouches.length!==1)return;const dx=ev.changedTouches[0].clientX-touchStart.x,dy=ev.changedTouches[0].clientY-touchStart.y;touchStart=null;if(Math.abs(dx)>95&&Math.abs(dx)>Math.abs(dy)*1.6)toPage(current+(dx<0?1:-1));},{passive:true});
 
+  // Trilha escolhida para o grimório. O áudio é iniciado somente após o clique.
+  const soundtrack = new Audio('audio/rei-de-nenhum-lugar.mp3');
+  soundtrack.loop = true;
+  soundtrack.volume = 0.15; // 15% do volume: trilha ambiente discreta.
+  soundtrack.preload = 'none';
   function ensureAudio(){
     if(audioCtx)return;
     const AC=window.AudioContext||window.webkitAudioContext;
     if(!AC)return;
-    audioCtx=new AC();drone=audioCtx.createGain();drone.gain.value=.004;drone.connect(audioCtx.destination);
-    [48.99,73.42,98].forEach(f=>{const o=audioCtx.createOscillator();o.type='sine';o.frequency.value=f;o.connect(drone);o.start();});
+    audioCtx=new AC();
     audioCtx.suspend();
   }
   function playFlip(){if(!soundOn||!audioCtx)return;try{const now=audioCtx.currentTime,o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='triangle';o.frequency.setValueAtTime(190,now);o.frequency.exponentialRampToValueAtTime(65,now+.19);g.gain.setValueAtTime(.001,now);g.gain.linearRampToValueAtTime(.014,now+.02);g.gain.exponentialRampToValueAtTime(.0001,now+.22);o.connect(g);g.connect(audioCtx.destination);o.start(now);o.stop(now+.25);}catch(_e){}}
-  $('#soundButton').addEventListener('click',async()=>{ensureAudio();if(!audioCtx){toast('Som indisponível neste navegador.');return;}soundOn=!soundOn;if(soundOn)await audioCtx.resume();else await audioCtx.suspend();$('#soundButton').setAttribute('aria-pressed',String(soundOn));$('#soundButton span').textContent=soundOn?'SOM ON':'SOM OFF';playFlip();});
+  $('#soundButton').addEventListener('click',async()=>{
+    if(soundOn){
+      soundtrack.pause();
+      soundOn=false;
+      if(audioCtx) await audioCtx.suspend();
+    }else{
+      ensureAudio();
+      try{
+        await soundtrack.play();
+        soundOn=true;
+        if(audioCtx) await audioCtx.resume();
+      }catch(_err){
+        soundOn=false;
+        toast('Não foi possível reproduzir a trilha. Confira o arquivo de áudio.');
+      }
+    }
+    $('#soundButton').setAttribute('aria-pressed',String(soundOn));
+    $('#soundButton span').textContent=soundOn?'SOM ON':'SOM OFF';
+  });
 
   const canvas=$('#dustCanvas'),ctx=canvas.getContext('2d');
   if(ctx){let stars=[],w=0,h=0,dpr=1;function resize(){w=innerWidth;h=innerHeight;dpr=Math.min(devicePixelRatio||1,2);canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);const random=rng(446626);stars=Array.from({length:Math.min(140,Math.floor(w*h/15000)+35)},()=>({x:random()*w,y:random()*h,r:.3+random()*1.4,vy:.02+random()*.16,vx:(random()-.5)*.08,seed:random()*6}));}function paint(t){ctx.clearRect(0,0,w,h);stars.forEach(p=>{const a=.1+(Math.sin(t*.0007+p.seed)+1)*.1;ctx.beginPath();ctx.fillStyle=`rgba(220,183,136,${a})`;ctx.arc(p.x,p.y,p.r,0,6.283);ctx.fill();if(!reduced){p.y-=p.vy;p.x+=p.vx;if(p.y<-3)p.y=h+3;if(p.x<-3)p.x=w+3;if(p.x>w+3)p.x=-3;}});if(!reduced)requestAnimationFrame(paint);}resize();addEventListener('resize',resize,{passive:true});requestAnimationFrame(paint);}
