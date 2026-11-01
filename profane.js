@@ -14,6 +14,8 @@
     const root=$('#spreadRoot');
     if(root) {
       const observer = new MutationObserver(() => {
+        // Não revele a tinta novamente enquanto a folha física está girando.
+        if(root.classList.contains('flip-in-progress'))return;
         root.classList.remove('ink-arriving');
         void root.offsetWidth;
         root.classList.add('ink-arriving');

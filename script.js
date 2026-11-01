@@ -54,7 +54,8 @@
     try{sessionStorage.setItem('liber-progress-v3',JSON.stringify({seals:[...collected],hearts:gateHearts,altars:altarStage,unlocked,game:Object.fromEntries(gameState)}));}catch(_e){}
   }
   function toast(message){const el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),3500);}
-  function pulse(){const fl=$('#inkFlash');fl.classList.remove('active');void fl.offsetWidth;fl.classList.add('active');}
+  // Feedback discreto, sem piscar a tela inteira como uma atualização/F5.
+  function pulse(){const mark=$('.meta-corner i');if(!mark)return;mark.classList.remove('ritual-mark-pulse');void mark.offsetWidth;mark.classList.add('ritual-mark-pulse');}
   function theme(color){document.documentElement.style.setProperty('--entity-color',color||'#b99972');}
   function hash(s){let n=2166136261;for(let i=0;i<s.length;i++){n^=s.charCodeAt(i);n=Math.imul(n,16777619);}return n>>>0;}
   function rng(seed){let v=seed>>>0;return()=>{v=(Math.imul(v,1664525)+1013904223)>>>0;return v/4294967296;};}
@@ -256,7 +257,7 @@
       outcome='<p class="fine-print">Cada registro possui seu próprio ambiente, uma inscrição exclusiva e uma resposta revelada apenas após o gesto.</p>';
     }
     const count=step<3?`MARCA ${step} / 3 · O RECINTO AINDA NÃO RESPONDEU`:'✦ A AUDIÊNCIA FOI CONCLUÍDA ✦';
-    return `<div class="tab-story relic-tab"><p class="tab-overline">V · RECINTO INTERATIVO</p><h3>O ${titleize(mode)} de ${esc(e.name)}</h3><p class="relic-instruction">Este recinto responde a uma sequência. Toque os três aspectos na ordem original do domínio: <strong>${esc(bits.join(' · '))}</strong>.</p><div class="relic-scene ${esc(e.scene)}" data-relic-id="${esc(e.id)}"><div class="relic-display"><span class="relic-main-symbol">${esc(e.glyph)}</span><span class="relic-orbit"></span></div><div class="relic-options">${choices}</div></div><p class="relic-counter">${count}</p>${outcome}</div>`;
+    return `<div class="tab-story relic-tab"><p class="tab-overline">V · RECINTO INTERATIVO</p><h3>O ${titleize(mode)} de ${esc(e.name)}</h3><p class="relic-instruction">Este recinto responde a três aspectos. A ordem, porém, não foi preservada nesta página.</p><div class="relic-scene ${esc(e.scene)}" data-relic-id="${esc(e.id)}"><div class="relic-display"><span class="relic-main-symbol">${esc(e.glyph)}</span><span class="relic-orbit"></span></div><div class="relic-options">${choices}</div></div><p class="relic-counter">${count}</p>${outcome}</div>`;
   }
   function renderEntity(e,n){
     const fav=savedFavorites.has(e.id),cls=e.category;
@@ -344,41 +345,224 @@
     const active=$(`.archive-link[data-index="${current}"]`);if(active)active.classList.add('active');
   }
   function refresh(){root.innerHTML=render(spreads[current],current);const s=spreads[current];theme(s.kind==='entity'?s.payload.color:s.kind==='horse'?Horsemen[s.payload].color:['annihilator','gate','pillars','chronicle','manifestation','last'].includes(s.kind)?'#aa484e':'#b99972');updateControls();}
+
+  // Atualizações pontuais: um clique em aba, relicário, favorito ou presságio
+  // não deve substituir as duas folhas nem zerar a rolagem do leitor.
+  function updateEntityView({content=true,tabs=false,favorite=false}={}){
+    const entry=spreads[current];
+    if(entry?.kind!=='entity'){refresh();return;}
+    const e=entry.payload;
+    if(tabs){
+      const active=tabState.get(e.id)||'cronica';
+      $$('.entity-tabs [data-action="tab"]',root).forEach(btn=>{
+        const selected=btn.dataset.tab===active;
+        btn.classList.toggle('active',selected);
+        btn.setAttribute('aria-selected',String(selected));
+      });
+    }
+    if(favorite){
+      const button=$('.favorite',root);
+      if(button){
+        const isSaved=savedFavorites.has(e.id);
+        button.classList.toggle('on',isSaved);
+        button.textContent=isSaved?'✦':'☆';
+        button.title=isSaved?'Remover dos favoritos':'Salvar no relicário';
+        button.setAttribute('aria-label',isSaved?'Remover dos salvos':'Salvar entidade');
+      }
+    }
+    if(content){
+      const panel=$('.entity-tab-content',root);
+      if(panel)panel.innerHTML=encounterPane(e);
+    }
+    updateControls();
+  }
+
+  // Nos cavaleiros, apenas o painel do presságio muda; a página e os
+  // detalhes abertos à direita permanecem exatamente onde estavam.
+  function updateHorseView(){
+    const entry=spreads[current];
+    if(entry?.kind!=='horse'){refresh();return;}
+    const draft=document.createElement('div');
+    draft.innerHTML=render(entry,current);
+    const live=$('.horse-omen-chamber',root);
+    const replacement=$('.horse-omen-chamber',draft);
+    if(live&&replacement)live.replaceWith(replacement);
+    updateControls();
+  }
+
+  // A câmara atualiza somente as inscrições do rito. O fólio esquerdo,
+  // a posição de leitura e as animações não são remontados.
+  function updateGateView(){
+    const entry=spreads[current];
+    if(entry?.kind!=='gate'){refresh();return;}
+    const draft=document.createElement('div');
+    draft.innerHTML=render(entry,current);
+    for(const selector of ['.threshold-counter','.gate-instructions']){
+      const live=$(selector,root);
+      const replacement=$(selector,draft);
+      if(live&&replacement)live.replaceWith(replacement);
+    }
+    updateControls();
+  }
   function pageTarget(target){let n=Math.max(0,Math.min(spreads.length-1,Number(target)));if(n>=secretStart&&!unlocked){toast('Este conhecimento não permite leitores sem os cinco lacres.');return gateIndex;}return n;}
+  // A folha é composta por segmentos articulados ao longo da largura.
+  // Cada segmento acompanha a curvatura da borda livre do papel e carrega
+  // somente a fatia correspondente da frente e do verso.
+  const FLIP_DURATION=1850;
+  const PAPER_STRIPS=14;
+  const curlShadow=document.createElement('div');
+  curlShadow.className='folio-curl-shadow';
+  curlShadow.setAttribute('aria-hidden','true');
+  stage.insertBefore(curlShadow,sheet);
+  const hingeShade=document.createElement('div');
+  hingeShade.className='folio-hinge-shade';
+  hingeShade.setAttribute('aria-hidden','true');
+  stage.insertBefore(hingeShade,sheet);
+  const paperFreeEdge=document.createElement('div');
+  paperFreeEdge.className='folio-free-edge';
+  paperFreeEdge.setAttribute('aria-hidden','true');
+  stage.insertBefore(paperFreeEdge,sheet);
+  function makePaperStrips(frontHTML,backHTML,forward){
+    const width=sheet.getBoundingClientRect().width;
+    const height=sheet.getBoundingClientRect().height;
+    const segmentWidth=width/PAPER_STRIPS;
+    const segmentList=[];
+    sheet.style.setProperty('--turn-page-width',width+'px');
+    sheet.style.setProperty('--turn-page-height',height+'px');
+    const frag=document.createDocumentFragment();
+    for(let i=0;i<PAPER_STRIPS;i++){
+      const strip=document.createElement('div');
+      strip.className='turn-strip';
+      strip.style.width=(segmentWidth+.85)+'px';
+      strip.style.height=height+'px';
+      strip.style.transformOrigin=forward?'0 50%':'100% 50%';
+      strip.style.setProperty('--folio-strip-index',i);
+      const outerContentIndex=forward?i:PAPER_STRIPS-1-i;
+      const innerContentIndex=forward?PAPER_STRIPS-1-i:i;
+      const front=document.createElement('div');front.className='turn-strip-face front';
+      const back=document.createElement('div');back.className='turn-strip-face back';
+      // O conteúdo é visual, não deve interagir enquanto a folha se move.
+      front.innerHTML=frontHTML;
+      back.innerHTML=backHTML;
+      const frontFolio=front.firstElementChild;
+      const backFolio=back.firstElementChild;
+      frontFolio.style.width=width+'px';
+      backFolio.style.width=width+'px';
+      frontFolio.style.left=(-outerContentIndex*segmentWidth)+'px';
+      backFolio.style.left=(-innerContentIndex*segmentWidth)+'px';
+      strip.append(front,back);
+      frag.appendChild(strip);
+      segmentList.push(strip);
+    }
+    sheet.appendChild(frag);
+    return {width,height,segmentWidth,segmentList};
+  }
   function toPage(target,force=false){
     const n=pageTarget(target);
     if(n===current&&!force){closeMenu();return;}
     if(turning){pending=n;return;}
     const old=current,forward=n>old;
     const newHTML=render(spreads[n],n);
-    const animation=opened&&!reduced&&!mobile();
-    if(!animation){current=n;refresh();closeMenu();return;}
+    if(!opened||reduced||mobile()||force){current=n;refresh();closeMenu();return;}
     turning=true;updateControls();
+    stage.classList.add('page-turning');
     const nextDoc=document.createElement('div');nextDoc.innerHTML=newHTML;
     const oldLeft=$('.folio-left',root)?.outerHTML||'',oldRight=$('.folio-right',root)?.outerHTML||'';
     const newLeft=$('.folio-left',nextDoc)?.outerHTML||'',newRight=$('.folio-right',nextDoc)?.outerHTML||'';
+    // O fólio de chegada já está sob a folha, não será redesenhado no final.
+    root.classList.remove('ink-arriving');
+    root.classList.add('flip-in-progress');
     root.innerHTML=`<div class="spread">${forward?oldLeft:newLeft}${forward?newRight:oldRight}</div>`;
-    faceFront.innerHTML=forward?oldRight:oldLeft;
-    faceBack.innerHTML=forward?newLeft:newRight;
-    sheet.className='turn-sheet '+(forward?'forward':'backward');
+    sheet.className='turn-sheet '+(forward?'forward':'backward')+' segments-active';
     sheet.style.display='block';
-    void sheet.offsetWidth;
-    requestAnimationFrame(()=>requestAnimationFrame(()=>sheet.classList.add('turning')));
-    playFlip();
+    const frontHTML=forward?oldRight:oldLeft;
+    const backHTML=forward?newLeft:newRight;
+    const {width,segmentWidth,segmentList}=makePaperStrips(frontHTML,backHTML,forward);
+    let midpointDone=false,finished=false,rafId=0;
     const serial=++flipSerial;
-    let finished=false;
-    let fallbackId=null;
-    const onEnd=(ev)=>{if(ev.target===sheet&&ev.propertyName==='transform')done();};
-    const done=()=>{
-      if(finished||!turning||serial!==flipSerial)return;
-      finished=true;clearTimeout(fallbackId);sheet.removeEventListener('transitionend',onEnd);
-      turning=false;current=n;
-      sheet.style.display='none';sheet.className='turn-sheet';sheet.style.transform='';faceFront.innerHTML='';faceBack.innerHTML='';
-      refresh();closeMenu();
+    const changeCoveredSide=()=>{
+      if(midpointDone||serial!==flipSerial)return;
+      midpointDone=true;
+      const existing=$(forward?'.folio-left':'.folio-right',root);
+      const t=document.createElement('template');
+      t.innerHTML=(forward?newLeft:newRight).trim();
+      if(existing&&t.content.firstElementChild)existing.replaceWith(t.content.firstElementChild);
+    };
+    const finish=()=>{
+      if(finished||serial!==flipSerial)return;
+      finished=true;
+      cancelAnimationFrame(rafId);
+      changeCoveredSide();
+      current=n;
+      const s=spreads[current];
+      theme(s.kind==='entity'?s.payload.color:s.kind==='horse'?Horsemen[s.payload].color:['annihilator','gate','pillars','chronicle','manifestation','last'].includes(s.kind)?'#aa484e':'#b99972');
+      updateControls();
+      document.body.classList.toggle('on-forbidden-folio',Boolean(root.querySelector('.forbidden-page, .special-spread, .gate-left, .horse-left, .special-left')));
+      curlShadow.style.opacity='0';
+      hingeShade.style.opacity='0';
+      paperFreeEdge.style.opacity='0';
+      sheet.style.display='none';
+      segmentList.forEach(strip=>strip.remove());
+      sheet.className='turn-sheet';
+      sheet.style.removeProperty('--turn-page-width');
+      sheet.style.removeProperty('--turn-page-height');
+      turning=false;
+      stage.classList.remove('page-turning');
+      root.classList.remove('flip-in-progress');
+      updateControls();
+      closeMenu();
       if(pending!==null){const next=pending;pending=null;if(next!==current)toPage(next);}
     };
-    sheet.addEventListener('transitionend',onEnd);
-    fallbackId=setTimeout(done,1160);
+    let timeStart=null;
+    const dir=forward?-1:1;
+    // A geometria é uma superfície contínua: cada faixa começa exatamente no
+    // ponto tridimensional onde a anterior terminou. O giro varia ao longo
+    // da folha: a borda livre se adianta, enquanto a lombada oferece resistência.
+    // Isso evita o efeito de persiana / tiras desconectadas.
+    const tick=(time)=>{
+      if(serial!==flipSerial)return;
+      if(timeStart===null)timeStart=time;
+      const t=Math.min(1,(time-timeStart)/FLIP_DURATION);
+      // Deslocamento com inércia: parte lentamente, atravessa com fluidez e
+      // amortece no último contato com o livro.
+      const progress=t*t*(3-2*t);
+      const envelope=Math.pow(Math.sin(Math.PI*progress),.87);
+      const curl=.62*envelope;
+      const ripple=.048*envelope*Math.sin(Math.PI*3*progress);
+      let x=forward?0:width;
+      let z=0;
+      for(let i=0;i<PAPER_STRIPS;i++){
+        const u=(i+.5)/PAPER_STRIPS;
+        const base=Math.PI*progress;
+        const angle=dir*(base+curl*(2*u-.45)+ripple*Math.sin(Math.PI*u));
+        const angleDeg=angle*180/Math.PI;
+        const strip=segmentList[i];
+        strip.style.left=(forward?x:x-segmentWidth)+'px';
+        strip.style.transform=`translate3d(0,0,${z.toFixed(3)}px) rotateY(${angleDeg.toFixed(3)}deg)`;
+        // Sombras graduais dão volume às faces, inclusive quando o verso aparece.
+        const shade=(.07+.38*envelope)*(.22+.78*Math.abs(Math.cos(angle)))*(0.55+0.45*u);
+        const sheen=.12*envelope*(1-Math.abs(Math.cos(angle)));
+        strip.style.setProperty('--folio-shade',shade.toFixed(3));
+        strip.style.setProperty('--folio-sheen',sheen.toFixed(3));
+        x+=(forward?1:-1)*segmentWidth*Math.cos(angle);
+        // RotateY desloca a extremidade em Z pelo seno do ângulo.
+        // Usar o mesmo valor do giro garante encaixe perfeito entre as faixas.
+        z+=(forward?-1:1)*segmentWidth*Math.sin(angle);
+      }
+      const shadowOpacity=.5*envelope;
+      curlShadow.style.opacity=shadowOpacity.toFixed(3);
+      curlShadow.style.left=(sheet.offsetLeft+x-42)+'px';
+      curlShadow.style.transform=`translateZ(0) scaleX(${(1.1+envelope*1.65).toFixed(3)})`;
+      hingeShade.style.opacity=(.57*envelope).toFixed(3);
+      hingeShade.style.transform=`translateX(-50%) scaleX(${(1+.6*envelope).toFixed(3)})`;
+      paperFreeEdge.style.opacity=(.34*envelope).toFixed(3);
+      paperFreeEdge.style.left=(sheet.offsetLeft+x-2)+'px';
+      paperFreeEdge.style.transform=`translateZ(0) scaleX(${(.8+.4*envelope).toFixed(3)})`;
+      if(progress>=.57)changeCoveredSide();
+      if(t<1)rafId=requestAnimationFrame(tick);else finish();
+    };
+    rafId=requestAnimationFrame(tick);
+    playFlip();
   }
 
   function buildSidebar(){
@@ -408,7 +592,10 @@
       }
     }
     if(!base.length)chunks.push(`<p class="no-results">Nenhuma presença encontrada. Tente outro termo ou categoria.</p>`);
-    $('#sidebarList').innerHTML=chunks.join('');
+    const list=$('#sidebarList');
+    const previousScroll=list.scrollTop;
+    list.innerHTML=chunks.join('');
+    list.scrollTop=previousScroll;
     $('#recordCount').textContent=base.length;
     $$('.chip').forEach(chip=>chip.classList.toggle('active',chip.dataset.filter===filter));
   }
@@ -419,7 +606,7 @@
     if(step>=3)return;
     if(Number(choice)===step){step++;gameState.set(id,step);if(step===3){pulse();toast(`O ${sceneInteraction[e.scene]||'selo'} respondeu. Uma inscrição de ${e.name} foi revelada.`);}else toast('O recinto reconheceu o aspecto. Continue.');}
     else{step=0;gameState.set(id,0);toast('A sequência foi quebrada. O recinto retornou ao silêncio.');}
-    saveProgress();refresh();
+    saveProgress();updateEntityView();
   }
   function handleAction(button){
     const action=button.dataset.action, id=button.dataset.id;
@@ -428,46 +615,46 @@
       const step=horseOmenState.get(id)||0;
       if(step>=3)return;
       horseOmenState.set(id,step+1);
-      pulse();refresh();
+      pulse();updateHorseView();
       toast(step===2?`${id.toUpperCase()} · O ${Horsemen[id].ordinal} FOI ROMPIDO.`:`${id.toUpperCase()} · O PRESSÁGIO SE REVELOU.`);
       return;
     }
     if(action==='horse-reset'){
       if(!Horsemen[id])return;
-      horseOmenState.set(id,0);refresh();
+      horseOmenState.set(id,0);updateHorseView();
       return;
     }
-    if(action==='tab'){tabState.set(id,button.dataset.tab);refresh();return;}
+    if(action==='tab'){tabState.set(id,button.dataset.tab);updateEntityView({tabs:true});return;}
     if(action==='favorite'){
       if(savedFavorites.has(id))savedFavorites.delete(id);else savedFavorites.add(id);
       try{localStorage.setItem('liber-favs-v3',JSON.stringify([...savedFavorites]));}catch(_e){}
-      buildSidebar();refresh();return;
+      buildSidebar();updateEntityView({content:false,favorite:true});return;
     }
     if(action==='relic'){clickRelic(id,button.dataset.choice);return;}
     if(action==='collect'){
       const s=button.dataset.seal;if(!sealsOrder.includes(s)||collected.has(s))return;
       const e=spreads[current]?.payload;
       if(!e||sealByName[e.name]!==s||(gameState.get(e.id)||0)!==3)return;
-      collected.add(s);saveProgress();pulse();toast(`${sealGlyph[s]} O SELO DE ${s.toUpperCase()} FOI RECOLHIDO.`);refresh();return;
+      collected.add(s);saveProgress();pulse();toast(`${sealGlyph[s]} O SELO DE ${s.toUpperCase()} FOI RECOLHIDO.`);updateEntityView();return;
     }
     if(action==='heart'){
       if(collected.size!==5||gateHearts>=3)return;
-      gateHearts++;saveProgress();pulse();refresh();toast(`O ${gateHearts}º coração simbólico silenciou.`);return;
+      gateHearts++;saveProgress();pulse();updateGateView();toast(`O ${gateHearts}º coração simbólico silenciou.`);return;
     }
     if(action==='altar'){
       if(collected.size!==5||gateHearts!==3||altarStage>=5)return;
-      altarStage++;saveProgress();pulse();refresh();toast(`DIA ${altarStage} CONCLUÍDO · O CORAÇÃO RECEBEU O PILAR.`);return;
+      altarStage++;saveProgress();pulse();updateGateView();toast(`DIA ${altarStage} CONCLUÍDO · O CORAÇÃO RECEBEU O PILAR.`);return;
     }
     if(action==='unlock'){
       if(collected.size!==5||gateHearts!==3||altarStage!==5)return;
-      unlocked=true;saveProgress();pulse();buildSidebar();refresh();toast('A CÂMARA INTERDITA SE ABRIU. ANNIHILATOR RECONHECEU O CHAMADO.');return;
+      unlocked=true;saveProgress();pulse();buildSidebar();updateGateView();toast('A CÂMARA INTERDITA SE ABRIU. ANNIHILATOR RECONHECEU O CHAMADO.');return;
     }
   }
 
   root.addEventListener('click',ev=>{
     const btn=ev.target.closest('button');if(!btn||turning)return;
-    if(btn.dataset.jump!==undefined){toPage(Number(btn.dataset.jump));return;}
-    if(btn.dataset.action){handleAction(btn);return;}
+    if(btn.dataset.jump!==undefined){ev.preventDefault();toPage(Number(btn.dataset.jump));return;}
+    if(btn.dataset.action){ev.preventDefault();handleAction(btn);return;}
   });
   $('#sidebarList').addEventListener('click',ev=>{const btn=ev.target.closest('[data-index]');if(btn)toPage(Number(btn.dataset.index));});
   $('#archiveShortcut').addEventListener('click',()=>toPage(gateIndex));

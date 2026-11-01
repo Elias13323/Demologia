@@ -18,3 +18,16 @@ PRESERVADO
 • Efeitos ambientes e som opcional.
 
 Os ritos são elementos ficcionais da lore.
+
+NOVA ÁREA — A CÂMARA DA CONSAGRAÇÃO
+• Depois de romper os cinco lacres e abrir Annihilator, selecione
+  "O RITO DO CORAÇÃO" no índice lateral.
+• Interaja com oito dias narrativos: três ofertas para o coração,
+  quatro para os pilares externos e uma grande oferta final.
+• A estrutura sacrificial aparece separada do núcleo; a energia
+  é canalizada visualmente até o coração ou o pilar selecionado.
+• Registre opcionalmente o nome do personagem ou da oferenda no RP.
+• O progresso desta área é guardado apenas no navegador local.
+  A interface não sincroniza o avanço entre jogadores do servidor.
+• O botão EFEITOS ON/OFF controla as animações da câmara.
+• Toda a experiência é ficcional, sem procedimentos reais.

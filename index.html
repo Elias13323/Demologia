@@ -13,9 +13,11 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="profane.css">
   <link rel="stylesheet" href="no-covers.css">
+  <link rel="stylesheet" href="ritual.css">
   <script src="catalog.js" defer></script>
   <script src="profane.js" defer></script>
   <script src="script.js" defer></script>
+  <script src="ritual.js" defer></script>
 </head>
 <body>
   <canvas id="dustCanvas" class="dust-canvas" aria-hidden="true"></canvas>
@@ -68,6 +70,7 @@
         </div>
         <div class="sidebar-list" id="sidebarList" aria-label="Entradas do índice"></div>
         <div class="sidebar-end">
+          <button id="ritualChamberButton" class="rite-shortcut" type="button" aria-haspopup="dialog" aria-controls="ritualOverlay"><span class="rite-icon">♜</span><span><strong>O RITO DO CORAÇÃO</strong><small>ESTRUTURA SACRIFICIAL · OITO DIAS</small></span><span class="rite-arrow">›</span></button>
           <button id="archiveShortcut" type="button" class="secret-shortcut"><span>⛧</span><span>CÂMARA INTERDITA<small id="chamberState">05 LACRES OCULTOS</small></span><span>›</span></button>
           <p class="seal-readout">MARCAS ENCONTRADAS <strong id="sealCount">0 / 5</strong></p>
         </div>
@@ -99,6 +102,146 @@
       </main>
     </div>
   </div>
+  <section id="ritualOverlay" class="rite-overlay" role="dialog" aria-modal="true" aria-labelledby="ritualTitle" hidden>
+    <canvas id="riteFluidViewport" class="rite-fluid-viewport" aria-hidden="true"></canvas>
+    <div class="rite-shell">
+      <header class="rite-topbar">
+        <div><span class="rite-overline">SACRAMENTUM VELARIS · RITUS CORDIS</span><h2 id="ritualTitle">A Câmara da Consagração</h2></div>
+        <div class="rite-topbar-right"><button type="button" class="rite-utility" id="ritualMotion" aria-pressed="true">EFEITOS ON</button><button type="button" class="rite-utility rite-close" id="ritualClose" aria-label="Fechar a câmara">×</button></div>
+      </header>
+      <div id="ritualSealed" class="rite-sealed" hidden>
+        <div class="seal-symbol" aria-hidden="true">⛧</div><h3>O conhecimento permanece lacrado.</h3>
+        <p>Os cinco lacres devem ser rompidos antes que as escrituras sobre os sacrifícios possam ser consultadas. A Câmara Interdita guarda a passagem.</p>
+        <button class="rite-button" type="button" id="ritualToGate">RETORNAR AOS CINCO LACRES</button>
+      </div>
+      <div id="ritualContent">
+        <div class="rite-intro">
+          <div><h3>O Coração que Ainda Não Vive</h3><p>A estrutura sacrificial permanece separada dos cinco pilares. Cada oferta simbólica é recolhida, armazenada e canalizada ao coração ou ao pilar correspondente. Nenhum sacrifício ocorre nos pilares.</p></div>
+          <span class="rite-badge" id="ritualProgressBadge">00 / 08 · OFERTAS</span>
+        </div>
+        <div class="rite-layout">
+          <div class="rite-map-card">
+            <div class="rite-map-head"><span>NÚCLEO DA MANIFESTAÇÃO · CINCO PILARES</span><strong>ESTRUTURA SACRIFICIAL À PARTE →</strong><span class="rite-swipe-hint">DESLIZE PARA EXPLORAR →</span></div>
+            <div class="rite-map-scroll"><div class="rite-diagram" id="ritualDiagram">
+              <svg viewBox="0 0 900 515" class="rite-conduits vascular-anatomy" aria-hidden="true" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="riteVesselScarlet" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8d2338"/><stop offset=".48" stop-color="#ff5876"/><stop offset="1" stop-color="#a62d45"/></linearGradient>
+                  <linearGradient id="riteVesselBlue" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#25396c"/><stop offset=".52" stop-color="#77b4ff"/><stop offset="1" stop-color="#38529c"/></linearGradient>
+                </defs>
+                <g class="rite-vessel-underlay">
+                  <path d="M210 125 C266 154 325 224 389 259"/>
+                  <path d="M210 125 C278 179 331 235 389 259"/>
+                  <path d="M560 125 C505 154 452 222 389 259"/>
+                  <path d="M560 125 C491 177 446 232 389 259"/>
+                  <path d="M210 399 C269 361 325 295 389 259"/>
+                  <path d="M210 399 C279 346 334 287 389 259"/>
+                  <path d="M560 399 C507 358 451 298 389 259"/>
+                  <path d="M560 399 C491 342 447 285 389 259"/>
+                  <path d="M210 125 C336 145 532 201 681 259"/>
+                  <path d="M210 125 C356 171 527 229 681 259"/>
+                  <path d="M560 125 C583 178 618 230 681 259"/>
+                  <path d="M560 125 C611 166 646 215 681 259"/>
+                  <path d="M210 399 C337 369 533 316 681 259"/>
+                  <path d="M210 399 C355 345 527 289 681 259"/>
+                  <path d="M560 399 C583 340 618 288 681 259"/>
+                  <path d="M560 399 C610 354 647 301 681 259"/>
+                  <path d="M389 259 C472 244 579 237 681 259"/>
+                  <path d="M389 259 C472 277 581 282 681 259"/>
+                  <path d="M681 259 C731 252 761 255 801 259"/>
+                  <path d="M681 259 C732 268 762 264 801 259"/>
+                </g>
+                <g class="rite-vascular-bed">
+                  <path class="rite-wire artery" data-vessel="dark-heart" d="M210 125 C266 154 325 224 389 259"/>
+                  <path class="rite-wire vein" data-vessel="dark-heart" d="M210 125 C278 179 331 235 389 259"/>
+                  <path class="rite-wire artery" data-vessel="chaos-heart" d="M560 125 C505 154 452 222 389 259"/>
+                  <path class="rite-wire vein" data-vessel="chaos-heart" d="M560 125 C491 177 446 232 389 259"/>
+                  <path class="rite-wire artery" data-vessel="dream-heart" d="M210 399 C269 361 325 295 389 259"/>
+                  <path class="rite-wire vein" data-vessel="dream-heart" d="M210 399 C279 346 334 287 389 259"/>
+                  <path class="rite-wire artery" data-vessel="profane-heart" d="M560 399 C507 358 451 298 389 259"/>
+                  <path class="rite-wire vein" data-vessel="profane-heart" d="M560 399 C491 342 447 285 389 259"/>
+                  <path class="rite-wire artery" data-vessel="dark-junction" d="M210 125 C336 145 532 201 681 259"/>
+                  <path class="rite-wire vein" data-vessel="dark-junction" d="M210 125 C356 171 527 229 681 259"/>
+                  <path class="rite-wire artery" data-vessel="chaos-junction" d="M560 125 C583 178 618 230 681 259"/>
+                  <path class="rite-wire vein" data-vessel="chaos-junction" d="M560 125 C611 166 646 215 681 259"/>
+                  <path class="rite-wire artery" data-vessel="dream-junction" d="M210 399 C337 369 533 316 681 259"/>
+                  <path class="rite-wire vein" data-vessel="dream-junction" d="M210 399 C355 345 527 289 681 259"/>
+                  <path class="rite-wire artery" data-vessel="profane-junction" d="M560 399 C583 340 618 288 681 259"/>
+                  <path class="rite-wire vein" data-vessel="profane-junction" d="M560 399 C610 354 647 301 681 259"/>
+                  <path class="rite-wire artery" data-vessel="heart-junction" d="M389 259 C472 244 579 237 681 259"/>
+                  <path class="rite-wire vein" data-vessel="heart-junction" d="M389 259 C472 277 581 282 681 259"/>
+                  <path class="rite-wire artery" data-vessel="junction-platform" d="M681 259 C731 252 761 255 801 259"/>
+                  <path class="rite-wire vein" data-vessel="junction-platform" d="M681 259 C732 268 762 264 801 259"/>
+                </g>
+                <path class="rite-junction-beat" d="M674 259 Q681 251 688 259 Q681 267 674 259 Z"/>
+                <path class="rite-flux artery" data-route="coração" d="M801 259 C761 255 731 252 681 259 C579 237 472 244 389 259"/>
+                <path class="rite-flux vein" data-route="coração" d="M801 259 C762 264 732 268 681 259 C581 282 472 277 389 259"/>
+                <path class="rite-flux artery" data-route="escuridão" d="M801 259 C761 255 731 252 681 259 C532 201 336 145 210 125 C266 154 325 224 389 259"/>
+                <path class="rite-flux vein" data-route="escuridão" d="M801 259 C762 264 732 268 681 259 C527 229 356 171 210 125 C278 179 331 235 389 259"/>
+                <path class="rite-flux artery" data-route="caos" d="M801 259 C761 255 731 252 681 259 C618 230 583 178 560 125 C505 154 452 222 389 259"/>
+                <path class="rite-flux vein" data-route="caos" d="M801 259 C762 264 732 268 681 259 C646 215 611 166 560 125 C491 177 446 232 389 259"/>
+                <path class="rite-flux artery" data-route="onírico" d="M801 259 C761 255 731 252 681 259 C533 316 337 369 210 399 C269 361 325 295 389 259"/>
+                <path class="rite-flux vein" data-route="onírico" d="M801 259 C762 264 732 268 681 259 C527 289 355 345 210 399 C279 346 334 287 389 259"/>
+                <path class="rite-flux artery" data-route="profano" d="M801 259 C761 255 731 252 681 259 C618 288 583 340 560 399 C507 358 451 298 389 259"/>
+                <path class="rite-flux vein" data-route="profano" d="M801 259 C762 264 732 268 681 259 C647 301 610 354 560 399 C491 342 447 285 389 259"/>
+                <path class="rite-flux artery" data-route="final" d="M801 259 C761 255 731 252 681 259 C532 201 336 145 210 125 M681 259 C618 230 583 178 560 125 M681 259 C533 316 337 369 210 399 M681 259 C618 288 583 340 560 399 M681 259 C579 237 472 244 389 259"/>
+                <path class="rite-flux vein" data-route="final" d="M801 259 C762 264 732 268 681 259 C527 229 356 171 210 125 M681 259 C646 215 611 166 560 125 M681 259 C527 289 355 345 210 399 M681 259 C647 301 610 354 560 399 M681 259 C581 282 472 277 389 259"/>
+              </svg>
+              <div class="rite-node rite-heart-node" data-node="coração" role="img" aria-label="Pilar principal e coração humano batendo">
+                <span class="rite-node-symbol rite-anatomical-heart" aria-hidden="true">
+                  <svg viewBox="0 0 128 128" class="rite-heart-svg" focusable="false">
+                    <defs>
+                      <linearGradient id="heartCoreRed" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0" stop-color="#ffb0b6"/>
+                        <stop offset=".18" stop-color="#ff6d7b"/>
+                        <stop offset=".55" stop-color="#c91e36"/>
+                        <stop offset="1" stop-color="#7b0819"/>
+                      </linearGradient>
+                      <radialGradient id="heartGlowCore" cx="50%" cy="40%" r="60%">
+                        <stop offset="0" stop-color="#ffd7dc" stop-opacity=".95"/>
+                        <stop offset=".35" stop-color="#ff778a" stop-opacity=".72"/>
+                        <stop offset="1" stop-color="#960c23" stop-opacity="0"/>
+                      </radialGradient>
+                    </defs>
+                    <ellipse cx="64" cy="68" rx="40" ry="34" fill="url(#heartGlowCore)"/>
+                    <path class="heart-vessel heart-vessel-a" d="M56 18c-4 11-2 19 0 28"/>
+                    <path class="heart-vessel heart-vessel-b" d="M65 16c0 11 2 20 5 28"/>
+                    <path class="heart-vessel heart-vessel-c" d="M75 20c4 8 6 16 6 24"/>
+                    <path class="heart-vessel heart-vessel-d" d="M49 23c-2 7-2 13-1 19"/>
+                    <path class="heart-body" d="M66 33c11 0 21 5 26 15 7 14 6 33-1 46-6 11-15 18-25 24-1 1-2 1-3 0-12-6-23-18-29-30-7-15-8-33 1-46 6-8 15-12 23-12 6 0 10 2 14 6 3-2 7-3 11-3z" fill="url(#heartCoreRed)"/>
+                    <path class="heart-shade" d="M87 46c4 12 3 29-3 40-5 10-13 16-22 21 3-9 5-18 6-32 1-12-1-27-2-42 8 1 15 5 21 13z" fill="rgba(70,0,10,.26)"/>
+                    <path class="heart-highlight" d="M48 43c5-6 12-9 18-9 2 0 3 0 5 1-7 4-12 12-14 20-3 10-2 19-2 29-4-5-10-10-13-17-4-9-4-18 0-24 1 0 3 0 6 0z" fill="rgba(255,226,230,.18)"/>
+                    <path class="heart-midline" d="M63 37c-3 11-1 22 0 33 1 16 1 29-2 42" fill="none" stroke="rgba(66,4,12,.36)" stroke-width="2.2" stroke-linecap="round"/>
+                    <path class="heart-contour" d="M66 33c11 0 21 5 26 15 7 14 6 33-1 46-6 11-15 18-25 24-1 1-2 1-3 0-12-6-23-18-29-30-7-15-8-33 1-46 6-8 15-12 23-12 6 0 10 2 14 6 3-2 7-3 11-3z" fill="none" stroke="rgba(255,188,194,.35)" stroke-width="2.5" stroke-linejoin="round"/>
+                  </svg>
+                </span><strong>CORAÇÃO</strong><small>RECEPTÁCULO</small></div>
+              <button class="rite-node rite-node-dark" data-target="escuridão" type="button"><span class="rite-node-symbol">✦</span><strong>ESCURIDÃO</strong><small>OPHANIM</small></button>
+              <button class="rite-node rite-node-chaos" data-target="caos" type="button"><span class="rite-node-symbol">◈</span><strong>CAOS</strong><small>BAAL</small></button>
+              <button class="rite-node rite-node-dream" data-target="onírico" type="button"><span class="rite-node-symbol">☾</span><strong>ONÍRICO</strong><small>GRIMM</small></button>
+              <button class="rite-node rite-node-profane" data-target="profano" type="button"><span class="rite-node-symbol">†</span><strong>PROFANO</strong><small>OLHAR</small></button>
+              <div class="rite-platform" role="img" aria-label="Estrutura sacrificial independente"><span class="rite-node-symbol">◈</span><strong>ÁREA DO RITO</strong><small>CANALIZAÇÃO</small></div>
+            </div></div>
+            <div class="rite-map-caption"><span><strong>01 · NÚCLEO</strong> Coração e quatro pilares unidos</span><span><strong>02 · ESTRUTURA DISTANTE</strong> A energia parte da área sacrificial</span></div>
+          </div>
+          <aside class="rite-record" aria-label="Etapa atual do ritual">
+            <span class="record-label" id="ritualStageLabel">DIA I · PRIMEIRO CORAÇÃO</span>
+            <h3 id="ritualStageTitle">O primeiro silêncio</h3>
+            <p class="rite-stage-copy" id="ritualStageCopy">O receptáculo aguarda a primeira oferta.</p>
+            <div class="rite-recipient" id="ritualRecipient">DESTINO · CORAÇÃO CENTRAL</div>
+            <p class="rite-instructions" id="ritualInstruction">A energia será canalizada diretamente para o coração.</p>
+            <label class="rite-log-label" id="ritualLogLabel"><span>REGISTRO DA OFERTA · OPCIONAL</span><input id="ritualOfferingName" maxlength="60" autocomplete="off" placeholder="Nome do personagem ou oferenda de RP"></label>
+            <div class="rite-status" id="ritualStatus" role="status" aria-live="polite">O primeiro dia ainda não foi registrado.</div>
+            <button type="button" class="rite-button" id="ritualAction">REGISTRAR A PRIMEIRA OFERTA</button>
+            <div class="rite-tally" id="ritualTally">TRÊS CORAÇÕES · QUATRO PILARES · OFERTA FINAL</div>
+          </aside>
+        </div>
+        <section class="rite-timeline" aria-label="Cronologia das ofertas">
+          <div class="rite-timeline-head"><span>CRONOLOGIA DO RITO · OITO DIAS</span><small>Uma etapa por dia na história; avance conforme o RP do servidor.</small></div>
+          <div class="rite-days" id="ritualDays"></div>
+        </section>
+        <footer class="rite-footer"><span>Simulação narrativa do universo Sacramentum Velaris; nenhum procedimento real é representado. O progresso é salvo somente neste navegador.</span><button id="ritualReset" type="button">RECOMEÇAR ESTE RITO</button></footer>
+      </div>
+    </div>
+  </section>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <div id="inkFlash" class="ink-flash" aria-hidden="true"></div>
 </body>
